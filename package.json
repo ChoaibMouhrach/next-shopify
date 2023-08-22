@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.0.2",
+    "@tanstack/react-query": "^4.33.0",
     "@types/node": "20.5.3",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
+    "axios": "^1.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "eslint-config-next": "13.4.19",
@@ -25,7 +27,8 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "eslint": "8.47.0",
@@ -33,7 +36,7 @@
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.2"
   },
-  "lint-staged" : {
+  "lint-staged": {
     "**/*.{ts,tsx}": [
       "prettier --write",
       "eslint --fix"
