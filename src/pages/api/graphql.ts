@@ -10,13 +10,20 @@ const handler: NextApiHandler = async (
 
   const response = await axios({
     url: env.SHOPIFY_STOREFRONT_API_URL,
+    method: "POST",
     headers: {
       "X-Shopify-Storefront-Access-Token": env.SHOPIFY_STOREFRONT_TOKEN,
     },
     data,
   });
 
-  return res.status(response.status).json(response.data);
+  let status: number = response.status;
+
+  if (response.data.errors) {
+    status = 400;
+  }
+
+  return res.status(status).json(response.data);
 };
 
 export default handler;
