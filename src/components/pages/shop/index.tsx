@@ -1,5 +1,8 @@
 import { Input } from "@/components/ui/input";
-import { useGetProducts } from "@/services/product.service";
+import {
+  UseGetProductsVariables,
+  useGetProducts,
+} from "@/services/product.service";
 import { ChangeEvent, useCallback, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RefreshCcw } from "lucide-react";
@@ -7,20 +10,31 @@ import { Button } from "@/components/ui/button";
 import SkeletonProductCard from "@/components/custom/product-card/skeleton";
 import ProductCard from "@/components/custom/product-card";
 import { debounce } from "@/lib/utils";
+import { Filter } from "./filter";
 
 export default function ShopPage() {
-  const [title, setTitle] = useState<string>("");
-  const { data, isLoading, isSuccess, isFetching, refetch } = useGetProducts({
-    productsCount: 20,
-    query: {
-      title: title ? `*${title}*` : undefined,
-    },
+  const [variables, setVariables] = useState<UseGetProductsVariables>({
+    first: 8,
+    query: {},
+    sortKey: "ID",
+    reverse: false,
   });
+
+  const { data, isLoading, isSuccess, isFetching, refetch } =
+    useGetProducts(variables);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
     debounce((e: ChangeEvent<HTMLInputElement>) => {
-      setTitle(e.target.value);
+      const { value: title } = e.target;
+
+      setVariables({
+        ...variables,
+        query: {
+          ...variables.query,
+          title: title ? `*${title}*` : undefined,
+        },
+      });
     }),
     [],
   );
@@ -29,9 +43,7 @@ export default function ShopPage() {
     <div className="container py-4 flex items-stretch gap-4 shrink-0">
       <div className="flex-1 max-w-xs shrink-0 hidden lg:block relative">
         {isSuccess && (
-          <div className="sticky top-4 border border-muted p-4 rounded-md">
-            Filter
-          </div>
+          <Filter variables={variables} setVariables={setVariables} />
         )}
         {isLoading && (
           <Skeleton className="sticky top-4 border border-muted p-8 rounded-md" />

@@ -4,6 +4,7 @@
     "no-unused-vars": "error",
     "no-unused-expressions": "error",
     "no-unused-labels": "error",
-    "no-console": "error"
+    "no-console": "error",
+    "react-hooks/exhaustive-deps": "off"
   }
 }

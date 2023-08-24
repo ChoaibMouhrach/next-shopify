@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { IProduct } from "@/lib/shopify/interfaces";
+import { IProduct, IQuery, IVariables } from "@/lib/shopify/interfaces";
 import { getProductsQuery } from "@/lib/shopify/queries/products";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
@@ -12,12 +12,9 @@ interface UseGetProductsResponseBody {
   };
 }
 
-type Variables = {
-  productsCount: number;
-  query: Record<string, string | undefined>;
-};
+const prepareQuery = (query: IQuery): string => {
+  if (!query) return "";
 
-const prepareQuery = (query: Record<string, string | undefined>): string => {
   const queryObject: Record<string, string> = {};
 
   Object.entries(query).forEach(([key, value]) => {
@@ -31,9 +28,14 @@ const prepareQuery = (query: Record<string, string | undefined>): string => {
     .join(" ");
 };
 
-export const useGetProducts = (variables: Variables) => {
+export interface UseGetProductsVariables
+  extends Required<
+    Pick<IVariables, "query" | "first" | "reverse" | "sortKey">
+  > {}
+
+export const useGetProducts = (variables: UseGetProductsVariables) => {
   return useQuery<AxiosResponse<UseGetProductsResponseBody>>({
-    queryKey: ["products", ...Object.values(variables)],
+    queryKey: ["products", variables],
     keepPreviousData: true,
     queryFn: () => {
       return api({

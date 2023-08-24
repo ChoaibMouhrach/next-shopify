@@ -17,3 +17,12 @@ export interface IProduct {
     };
   };
 }
+
+export interface IQuery extends Record<string, string | undefined> {}
+
+export interface IVariables {
+  first?: number;
+  sortKey?: string;
+  reverse?: boolean;
+  query?: IQuery;
+}

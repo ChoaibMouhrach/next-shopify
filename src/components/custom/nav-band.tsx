@@ -1,9 +1,14 @@
+import { Mail } from "lucide-react";
+
 export default function NavBand() {
   return (
     <div>
-      <div className="container flex items-center py-4 text-sm justify-between">
-        <p>+212 613739291</p>
-        <p>owner@yeracode.com</p>
+      <div className="container flex items-center py-4 text-sm justify-between text-muted-foreground">
+        <p>FREE SHIPPING FOR ALL ORDERS OF 200 $</p>
+        <div className="flex items-center gap-2">
+          <Mail className="w-4 h-4" />
+          <p>example@example.com</p>
+        </div>
       </div>
     </div>
   );
