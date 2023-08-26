@@ -1,5 +1,4 @@
-import env from "@/lib/env";
-import axios from "axios";
+import shopifyApi from "@/lib/shopify/api";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 const handler: NextApiHandler = async (
@@ -8,12 +7,7 @@ const handler: NextApiHandler = async (
 ) => {
   const { body: data } = req;
 
-  const response = await axios({
-    url: env.SHOPIFY_STOREFRONT_API_URL,
-    method: "POST",
-    headers: {
-      "X-Shopify-Storefront-Access-Token": env.SHOPIFY_STOREFRONT_TOKEN,
-    },
+  const response = await shopifyApi({
     data,
   });
 

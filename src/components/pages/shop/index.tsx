@@ -68,7 +68,7 @@ export default function ShopPage() {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
           {isSuccess &&
             data.data.data.products.nodes.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.handle} product={product} />
             ))}
           {isLoading &&
             [...Array(20)].map((_, index) => (

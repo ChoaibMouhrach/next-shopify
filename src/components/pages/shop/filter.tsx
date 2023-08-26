@@ -46,7 +46,11 @@ export function Filter({ variables, setVariables }: FilterProps) {
   };
 
   const handleMaxPrice = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
+    let { value } = e.target;
+
+    if (value === "" || value === "") {
+      value = "99999999999";
+    }
 
     setPrice({
       ...price,
@@ -92,12 +96,14 @@ export function Filter({ variables, setVariables }: FilterProps) {
       <div className="flex items-center gap-4">
         <Input
           onChange={handleMinPrice}
+          value={price.min}
           min="1"
           type="number"
           placeholder="Min price"
         />
         <Input
           onChange={handleMaxPrice}
+          value={price.max}
           min="1"
           type="number"
           placeholder="Max price"

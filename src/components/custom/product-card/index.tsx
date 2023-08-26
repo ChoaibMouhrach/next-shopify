@@ -1,14 +1,22 @@
 import { IProduct } from "@/lib/shopify/interfaces";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 interface ProductCardProps {
   product: IProduct;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    router.push(`/shop/${product.handle}`);
+  };
+
   return (
     <div
-      key={product.id}
+      onClick={handleNavigation}
+      key={product.handle}
       className="border group flex flex-col border-muted rounded-md cursor-pointer"
     >
       <div className="h-60 relative">

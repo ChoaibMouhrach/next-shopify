@@ -12,7 +12,7 @@ export const getProductsQuery = /* GraphQL */ `
       reverse: $reverse
     ) {
       nodes {
-        id
+        handle
         title
         priceRange {
           minVariantPrice {
@@ -28,6 +28,25 @@ export const getProductsQuery = /* GraphQL */ `
           }
         }
       }
+    }
+  }
+`;
+
+export const getProductQuery = /* GraphQL */ `
+  query GetProduct($handle: String!) {
+    product(handle: $handle) {
+      title
+      tags
+      seo {
+        description
+        title
+      }
+      images(first: 6) {
+        nodes {
+          url
+        }
+      }
+      descriptionHtml
     }
   }
 `;

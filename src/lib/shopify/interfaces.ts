@@ -3,8 +3,10 @@ export interface IImage {
 }
 
 export interface IProduct {
-  id: string;
+  handle: string;
   title: string;
+  descriptionHtml?: string;
+  tags?: string[];
   images: {
     nodes: IImage[];
   };
@@ -15,6 +17,10 @@ export interface IProduct {
     maxVariantPrice: {
       amount: string;
     };
+  };
+  seo?: {
+    description: string;
+    title: string;
   };
 }
 
