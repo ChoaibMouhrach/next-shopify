@@ -1,3 +1,5 @@
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 import {
   Accordion,
   AccordionContent,
@@ -5,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { AlertTriangle, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useAddToCart } from "@/services/cart.service";
 import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -18,7 +20,7 @@ interface ProductDetailsProps {
 
 export function ProductDetails({ product }: ProductDetailsProps) {
   const [quantity, setQuantity] = useState(1);
-  const { mutate: createCart, isLoading } = useAddToCart();
+  const { mutate: createCart, isLoading, error, isError } = useAddToCart();
   const [activeVariantId, setActiveVariantId] = useState("");
 
   const addToCart = () => {
@@ -96,6 +98,16 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           <Plus className="w-4 h-4" />
         </Button>
       </div>
+
+      {isError && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Heads up!</AlertTitle>
+          <AlertDescription>
+            {error.response?.data.data.cartLinesAdd.userErrors[0].message}
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div>
         <Button

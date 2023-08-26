@@ -3,6 +3,7 @@ export interface IImage {
 }
 
 export interface IProduct {
+  id: string;
   handle: string;
   title: string;
   descriptionHtml?: string;

@@ -5,7 +5,9 @@ import {
   createCartMutation,
 } from "@/lib/shopify/mutations/cart";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 
+// CREATE CARTE
 interface CreateCartResponseData {
   data: {
     cartCreate: {
@@ -24,13 +26,41 @@ const createCart = () => {
   });
 };
 
-interface addToCartProps {
+// ADD TO CART
+interface AddToCartProps {
   itemId: string;
   quantity: number;
 }
 
-const addToCart = ({ itemId, quantity }: addToCartProps) => {
-  return api({
+interface AddToCartResponseData {
+  data: {
+    cartLinesAdd: {
+      cart: {
+        id: string;
+      };
+      userErrors: [];
+    };
+  };
+}
+
+interface AddToCartResponseErrorData {
+  data: {
+    cartLinesAdd: {
+      cart: {
+        id: string;
+      };
+      userErrors: [
+        {
+          field: string[];
+          message: string;
+        },
+      ];
+    };
+  };
+}
+
+const addToCart = async ({ itemId, quantity }: AddToCartProps) => {
+  return api<AddToCartResponseData>({
     data: {
       query: addToCartMutation,
       variables: {
@@ -49,8 +79,12 @@ const addToCart = ({ itemId, quantity }: addToCartProps) => {
 export const useAddToCart = () => {
   const { toast } = useToast();
 
-  return useMutation({
-    mutationFn: async ({ itemId, quantity }: addToCartProps) => {
+  return useMutation<
+    AxiosResponse<AddToCartResponseData>,
+    AxiosError<AddToCartResponseErrorData>,
+    AddToCartProps
+  >({
+    mutationFn: async ({ itemId, quantity }) => {
       let cartId = localStorage.getItem("cartId");
 
       if (!cartId) {
@@ -71,6 +105,7 @@ export const useAddToCart = () => {
       toast({
         title: "Error",
         description: "Something went wrong",
+        variant: "destructive",
       });
     },
   });

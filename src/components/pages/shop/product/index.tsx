@@ -14,9 +14,11 @@ export default function ProductPage({ product }: ProductPageProps) {
         <title>{product.seo?.title ?? product.title}</title>
         <meta name="description" content={product.seo?.description} />
       </Head>
-      <main className="flex flex-col-reverse md:flex-row container gap-8 py-8">
-        <ProductCarousel product={product} />
-        <ProductDetails product={product} />
+      <main className="container py-8">
+        <div className="flex flex-col-reverse md:flex-row gap-8">
+          <ProductCarousel product={product} />
+          <ProductDetails product={product} />
+        </div>
       </main>
     </>
   );

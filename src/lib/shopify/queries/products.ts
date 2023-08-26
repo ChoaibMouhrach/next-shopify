@@ -12,6 +12,7 @@ export const getProductsQuery = /* GraphQL */ `
       reverse: $reverse
     ) {
       nodes {
+        id
         handle
         title
         priceRange {
@@ -35,6 +36,7 @@ export const getProductsQuery = /* GraphQL */ `
 export const getProductQuery = /* GraphQL */ `
   query GetProduct($handle: String!) {
     product(handle: $handle) {
+      id
       title
       tags
       seo {
@@ -59,6 +61,25 @@ export const getProductQuery = /* GraphQL */ `
         }
       }
       descriptionHtml
+    }
+  }
+`;
+
+export const getRecommendedProducts = /* GraphQL */ `
+  query MyQuery($id: ID!) {
+    productRecommendations(productId: $id) {
+      id
+      title
+      priceRange {
+        minVariantPrice {
+          amount
+        }
+      }
+      images(first: 2) {
+        nodes {
+          url
+        }
+      }
     }
   }
 `;

@@ -13,7 +13,10 @@ const handler: NextApiHandler = async (
 
   let status: number = response.status;
 
-  if (response.data.errors) {
+  if (
+    response.data.errors ||
+    response.data.data.cartLinesAdd.userErrors.length
+  ) {
     status = 400;
   }
 
