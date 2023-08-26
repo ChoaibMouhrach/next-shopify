@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (
 
   if (
     response.data.errors ||
-    response.data.data.cartLinesAdd.userErrors.length
+    response.data?.data?.cartLinesAdd?.userErrors?.length
   ) {
     status = 400;
   }
