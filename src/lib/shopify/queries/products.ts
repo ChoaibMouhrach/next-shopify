@@ -46,6 +46,18 @@ export const getProductQuery = /* GraphQL */ `
           url
         }
       }
+      variants(first: 10) {
+        nodes {
+          id
+          title
+          price {
+            amount
+          }
+          image {
+            url
+          }
+        }
+      }
       descriptionHtml
     }
   }

@@ -10,6 +10,9 @@ export interface IProduct {
   images: {
     nodes: IImage[];
   };
+  variants?: {
+    nodes: IVariant[];
+  };
   priceRange: {
     minVariantPrice: {
       amount: string;
@@ -31,4 +34,15 @@ export interface IVariables {
   sortKey?: string;
   reverse?: boolean;
   query?: IQuery;
+}
+
+export interface IVariant {
+  id: string;
+  title: string;
+  price: {
+    amount: string;
+  };
+  image: {
+    url: string;
+  };
 }
