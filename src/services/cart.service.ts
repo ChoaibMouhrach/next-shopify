@@ -1,21 +1,10 @@
+import { useToast } from "@/components/ui/use-toast";
 import api from "@/lib/api";
 import {
   addToCartMutation,
   createCartMutation,
 } from "@/lib/shopify/mutations/cart";
 import { useMutation } from "@tanstack/react-query";
-
-export const useCreateCart = () => {
-  return useMutation({
-    mutationFn: () => {
-      return api({
-        data: {
-          query: createCartMutation,
-        },
-      });
-    },
-  });
-};
 
 interface CreateCartResponseData {
   data: {
@@ -27,20 +16,21 @@ interface CreateCartResponseData {
   };
 }
 
-const createCart = () =>
-  api<CreateCartResponseData>({
+const createCart = () => {
+  return api<CreateCartResponseData>({
     data: {
       query: createCartMutation,
     },
   });
+};
 
 interface addToCartProps {
   itemId: string;
   quantity: number;
 }
 
-const addToCart = ({ itemId, quantity }: addToCartProps) =>
-  api({
+const addToCart = ({ itemId, quantity }: addToCartProps) => {
+  return api({
     data: {
       query: addToCartMutation,
       variables: {
@@ -54,8 +44,11 @@ const addToCart = ({ itemId, quantity }: addToCartProps) =>
       },
     },
   });
+};
 
 export const useAddToCart = () => {
+  const { toast } = useToast();
+
   return useMutation({
     mutationFn: async ({ itemId, quantity }: addToCartProps) => {
       let cartId = localStorage.getItem("cartId");
@@ -67,6 +60,18 @@ export const useAddToCart = () => {
       }
 
       return addToCart({ itemId, quantity });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Item added to cart",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+      });
     },
   });
 };
